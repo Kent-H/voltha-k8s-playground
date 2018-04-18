@@ -1,0 +1,57 @@
+# CNI Genie
+- name: "VOLT-HA PONSIM | Start CNI Genie"
+  command: kubectl apply -f https://raw.githubusercontent.com/Huawei-PaaS/CNI-Genie/master/conf/1.8/genie.yaml
+  when: target == "master"
+  run_once: true
+
+# FreeRADIUS Config
+- name: "VOLT-HA PONSIM | Add FreeRADIUS Configuration"
+  command: kubectl apply -f /vagrant/k8s/freeradius-config.yml
+  when: target == "master"
+  run_once: true
+
+# FreeRADIUS
+- name: "VOLT-HA PONSIM | Start FreeRADIUS"
+  command: kubectl apply -f /vagrant/k8s/freeradius.yml
+  when: target == "master"
+  run_once: true
+
+- name: "VOLT-HA PONSIM | Wait for FreeRADIUS to be ready"
+  command: kubectl rollout status deployment/freeradius -w -n voltha
+  when: target == "master"
+  run_once: true
+
+# ONOS
+- name: "VOLT-HA PONSIM | Start ONOS"
+  command: kubectl apply -f /vagrant/k8s/onos.yml
+  when: target == "master"
+  run_once: true
+
+- name: "VOLT-HA PONSIM | Wait for ONOS to be ready"
+  command: kubectl rollout status deployment/onos -w -n voltha
+  when: target == "master"
+  run_once: true
+
+# OLT 
+- name: "VOLT-HA PONSIM | Start OLT"
+  command: kubectl apply -f /vagrant/k8s/olt.yml
+  when: target == "master"
+  run_once: true
+
+# ONU 
+- name: "VOLT-HA PONSIM | Start ONU"
+  command: kubectl apply -f /vagrant/k8s/onu.yml
+  when: target == "master"
+  run_once: true
+
+# RG 
+- name: "VOLT-HA PONSIM | Start RG"
+  command: kubectl apply -f /vagrant/k8s/rg.yml
+  when: target == "master"
+  run_once: true
+
+# Setup bridge for multicast traffic
+- name: "VOLT-HA PONSIM | Allow multicast traffic on bridge"
+  shell: echo 8 > /sys/class/net/pon0/bridge/group_fwd_mask
+  when: target == "cluster"
+  run_once: true

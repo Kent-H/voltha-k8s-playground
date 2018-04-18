@@ -1,0 +1,121 @@
+- name: "VOLT-HA Deploy | Add Namespace"
+  command: kubectl apply -f /vagrant/k8s/namespace.yml
+  run_once: true
+
+# Ingress
+- name: "VOLT-HA Deploy | Start Ingress Controller"
+  command: kubectl apply -f /vagrant/k8s/ingress
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for Default HTTP backend to be ready"
+  command: kubectl rollout status deployment/default-http-backend -w -n voltha
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for Ingress Controller to be ready"
+  command: kubectl rollout status deployment/nginx-ingress-controller -w -n voltha
+  run_once: true
+
+# Zookeeper
+- name: "VOLT-HA Deploy | Start zookeeper"
+  command: kubectl apply -f /vagrant/k8s/zookeeper.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for zookeeper to be ready"
+  command: kubectl rollout status statefulset/{{ item }} -w -n voltha
+  with_items:
+    - zookeeper1
+    - zookeeper2
+    - zookeeper3
+  run_once: true
+
+# Kafka
+- name: "VOLT-HA Deploy | Start kafka"
+  command: kubectl apply -f /vagrant/k8s/kafka.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for kafka to be ready"
+  command: kubectl rollout status statefulset/kafka -w -n voltha
+  run_once: true
+
+# Fluentd Config
+- name: "VOLT-HA Deploy | Add Fluentd Configuration"
+  command: kubectl apply -f /vagrant/k8s/fluentd-config.yml
+  run_once: true
+
+# Fluentd
+- name: "VOLT-HA Deploy | Start fluentd"
+  command: kubectl apply -f /vagrant/k8s/fluentd.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for fluentd to be ready"
+  command: kubectl rollout status deployment/{{ item }} -w -n voltha
+  with_items:
+    - fluentdactv
+    - fluentdstby
+  run_once: true
+
+# Etcd 
+- name: "VOLT-HA Deploy | Define etcd cluster role"
+  command: kubectl apply -f /vagrant/k8s/operator/etcd/cluster_role.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Define etcd cluster role binding"
+  command: kubectl apply -f /vagrant/k8s/operator/etcd/cluster_role_binding.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Start etcd operator"
+  command: kubectl apply -f /vagrant/k8s/operator/etcd/operator.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for etcd operator to be ready"
+  command: kubectl rollout status deployment/etcd-operator -w -n voltha
+  run_once: true
+
+- name: "VOLT-HA Deploy | Start etcd cluster"
+  command: kubectl apply -f /vagrant/k8s/operator/etcd/etcd_cluster.yml
+  run_once: true
+
+# Voltha Core (for etcd)
+- name: "VOLT-HA Deploy | Start VOLT-HA core (for etcd)"
+  command: kubectl apply -f /vagrant/k8s/vcore_for_etcd.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for VOLT-HA core (for etcd) to be ready"
+  command: kubectl rollout status deployment/vcore -w -n voltha
+  run_once: true
+
+# OFagent
+- name: "VOLT-HA Deploy | Start OpenFlow Agent"
+  command: kubectl apply -f /vagrant/k8s/ofagent.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for OpenFlow Agent to be ready"
+  command: kubectl rollout status deployment/ofagent -w -n voltha
+  run_once: true
+
+# Envoy (for etcd)
+- name: "VOLT-HA Deploy | Start Envoy (for etcd)"
+  command: kubectl apply -f /vagrant/k8s/envoy_for_etcd.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for Envoy (for etcd) to be ready"
+  command: kubectl rollout status deployment/voltha -w -n voltha
+  run_once: true
+
+# Voltha CLI
+- name: "VOLT-HA Deploy | Start VOLT-HA CLI"
+  command: kubectl apply -f /vagrant/k8s/vcli.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for VOLT-HA CLI to be ready"
+  command: kubectl rollout status deployment/vcli -w -n voltha
+  run_once: true
+
+# NETCONF
+- name: "VOLT-HA Deploy | Start NETCONF"
+  command: kubectl apply -f /vagrant/k8s/netconf.yml
+  run_once: true
+
+- name: "VOLT-HA Deploy | Wait for NETCONF to be ready"
+  command: kubectl rollout status deployment/netconf -w -n voltha
+  run_once: true

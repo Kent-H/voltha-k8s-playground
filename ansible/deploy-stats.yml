@@ -1,0 +1,6 @@
+- hosts: kube-master
+  serial: 1
+  vars:
+    target: master
+  roles:
+    - stats

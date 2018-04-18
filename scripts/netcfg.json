@@ -1,0 +1,72 @@
+{
+ "apps": {
+   "org.opencord.aaa" : {
+         "AAA": {
+           "nasIp": "onos.voltha.svc.cluster.local",
+           "nasMac": "BA:6D:26:25:44:AA",
+           "radiusSecret": "SECRET",
+           "radiusIp": "freeradius.voltha.svc.cluster.local",
+           "radiusServerPort": "1812",
+           "radiusConnectionType": "socket",
+           "packetCustomizer": "sample"
+         }
+     },
+   "org.opencord.sadis" : {
+     "sadis" : {
+       "integration" : {
+           "cache" : {
+             "enabled" : true,
+             "maxsize" : 50,
+             "ttl" : "PT1m"
+           }
+       },
+       "entries" : [ {
+           "id" : "uni-128",
+           "cTag" : 2,
+           "sTag" : 2,
+           "nasPortId" : "uni-128"
+           },{
+           "id" : "uni-129",
+           "cTag" : 2,
+           "sTag" : 2,
+           "nasPortId" : "uni-129"
+           },{
+           "id" : "uni-130",
+           "cTag" : 2,
+           "sTag" : 2,
+           "nasPortId" : "uni-130"
+           },{
+           "id" : "uni-131",
+           "cTag" : 2,
+           "sTag" : 2,
+           "nasPortId" : "uni-131"
+           }, {
+           "id" : "bd5f962d12a442a3b82e0e3873a4616a",
+           "hardwareIdentifier" : "aa:bb:cc:dd:ee:ff",
+           "ipAddress" : "onos.voltha.svc.cluster.local",
+           "nasId" : "B100-NASID"
+           } ]
+     }
+   },
+   "org.onosproject.dhcp-relay" : {
+          "dhcprelay" : {
+              "dhcpserverConnectPoint" : "of:00000cafecafecafe/4",
+              "serverip" : "11.11.11.11",
+              "gatewayip" : "9.9.9.9"
+          }
+   }
+ },
+ "devices": {
+   "of:0001aabbccddeeff": {
+     "basic": {
+       "driver": "pmc-olt"
+     },
+     "accessDevice": {
+       "uplink": "0",
+       "vlan": "2"
+     }
+   }
+ },
+ "ports" : { 
+ }
+}

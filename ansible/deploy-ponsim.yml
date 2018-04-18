@@ -1,0 +1,12 @@
+- hosts: kube-master
+  serial: 1
+  vars:
+    target: master
+  roles:
+    - ponsim
+- hosts: all
+  serial: 1
+  vars:
+    target: cluster
+  roles:
+    - ponsim

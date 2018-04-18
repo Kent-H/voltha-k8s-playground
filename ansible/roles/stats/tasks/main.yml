@@ -1,0 +1,21 @@
+# Grafana
+- name: "VOLT-HA Stats | Start Grafana"
+  command: kubectl apply -f /vagrant/k8s/grafana.yml
+  run_once: true
+
+- name: "VOLT-HA Stats | Wait for Grafana to be ready"
+  command: kubectl rollout status deployment/grafana -w -n voltha
+  run_once: true
+
+# Dashd and Shovel
+- name: "VOLT-HA Stats | Start DASHD and SHOVEL"
+  command: kubectl apply -f /vagrant/k8s/stats.yml
+  run_once: true
+
+- name: "VOLT-HA Stats | Wait for DASHD and SHOVEL to be ready"
+  command: kubectl rollout status deployment/{{ item }} -w -n voltha
+  with_items:
+    - dashd
+    - shovel
+  run_once: true
+

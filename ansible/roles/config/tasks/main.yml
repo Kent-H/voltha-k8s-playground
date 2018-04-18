@@ -1,0 +1,13 @@
+- name: VOLT-HA Config | Add CNI bridge for PONSIM layer 2 support
+  template:
+    src: ponsim_bridge.j2
+    dest: "/etc/cni/net.d/20-pon0.conf"
+
+- name: VOLT-HA Config | Add logging_volume directory under /var/log/voltha
+  file:
+    path: "/var/log/voltha/logging_volume"
+    state: directory
+
+- name: "VOLT-HA Config | Add vagrant to docker group"
+  shell: usermod -a -G docker vagrant
+  run_once: true
