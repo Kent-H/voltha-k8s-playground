@@ -36,7 +36,10 @@ not yet supported by the playground due to some stability issues.*
 cd voltha-k8s-playground
 
 # Pull the kubespray repository, prepare inventory and adjust configuration
-sh ./scripts/prepare-playground.sh
+bash ./scripts/prepare-playground.sh
+
+# Generate an SSH key on your local host (if required)
+ssh-keygen 
 
 # Bring up and provision VMs
 vagrant up
@@ -189,8 +192,6 @@ to perform an EAPOL authentication by completing the following steps:
 - Customize the ONOS configuration
 - Use the RG to perform an authentication request
 
-
-Follow the steps below to start using the PON simulator.
 
 ### Setup the PON bridge (ONLY IF MISSING)
 
