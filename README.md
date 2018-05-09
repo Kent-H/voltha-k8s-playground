@@ -16,6 +16,9 @@ with the Vagrant Ubuntu 16.04 box and network configuration.
 - `VirtualBox`, tested with Version 5.2.8 r121009 on MacOSX
 - Internet access, this playground pulls Vagrant boxes from the Internet as well
 as installs Ubuntu application packages from the Internet.
+- `GNU sed`, the script(s) provided by this playground perform string substitution operations
+using the sed utility.  If you are using a Mac, you may need to install the GNU sed 
+implementation (e.g. brew install gnu-sed)
 
 ## Bringing Up The cluster
 

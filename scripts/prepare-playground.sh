@@ -22,6 +22,13 @@ declare -a IPS=(
 
 HOST_PREFIX=k8s CONFIG_FILE=kubespray/inventory/voltha/hosts.ini python3 kubespray/contrib/inventory_builder/inventory.py ${IPS[@]}
 
+platform=`uname -s`
+if [[ "$platform" == 'Darwin' ]]; then
+  SED_CMD=gsed
+else
+  SED_CMD=sed
+fi
+	
 # Only keep one master... multi-master is not stable
-cat kubespray/inventory/voltha/hosts.ini | sed -e ':begin;$!N;s/\(\[kube-master\]\)\n/\1/;tbegin;P;D' | sed -e '/\[kube-master\].*/,/\[kube-node\]/{//!d}' | sed -e 's/\(\[kube-master\]\)\(.*\)/\1\n\2\n/' > kubespray/inventory/voltha/hosts.ini.tmp
+cat kubespray/inventory/voltha/hosts.ini | $SED_CMD -e ':begin;$!N;s/\(\[kube-master\]\)\n/\1/;tbegin;P;D' | $SED_CMD -e '/\[kube-master\].*/,/\[kube-node\]/{//!d}' | $SED_CMD -e 's/\(\[kube-master\]\)\(.*\)/\1\n\2\n/' > kubespray/inventory/voltha/hosts.ini.tmp
 mv kubespray/inventory/voltha/hosts.ini.tmp kubespray/inventory/voltha/hosts.ini
