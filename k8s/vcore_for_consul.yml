@@ -61,3 +61,4 @@ spec:
         - "--backend=consul"
         - "--pon-subnet=10.233.0.0/18"
         - "--ponsim-comm=grpc"
+        - "--core-number-extractor=^.*-([0-9]+)_.*$"

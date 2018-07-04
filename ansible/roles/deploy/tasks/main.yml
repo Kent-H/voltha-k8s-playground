@@ -81,7 +81,7 @@
   run_once: true
 
 - name: "VOLT-HA Deploy | Wait for VOLT-HA core (for etcd) to be ready"
-  command: kubectl rollout status deployment/vcore -w -n voltha
+  command: kubectl rollout status statefulset/vcore -w -n voltha
   run_once: true
 
 # OFagent

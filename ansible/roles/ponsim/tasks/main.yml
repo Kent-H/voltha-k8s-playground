@@ -1,6 +1,6 @@
 # CNI Genie
 - name: "VOLT-HA PONSIM | Start CNI Genie"
-  command: kubectl apply -f https://raw.githubusercontent.com/Huawei-PaaS/CNI-Genie/master/conf/1.8/genie.yaml
+  command: kubectl apply -f https://raw.githubusercontent.com/Huawei-PaaS/CNI-Genie/master/conf/1.8/genie-complete.yaml
   when: target == "master"
   run_once: true
 
