@@ -1,0 +1,8 @@
+- name: "Configure kubectl"
+  shell: |
+    mkdir -p /home/vagrant/.kube
+    cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+    chown vagrant:vagrant /home/vagrant/.kube/config
+    KUBECONFIG=/home/vagrant/.kube/config kubectl config set-context $(kubectl config current-context) --namespace=voltha
+    echo "alias k=kubectl" >> /home/vagrant/.bashrc
+  run_once: true

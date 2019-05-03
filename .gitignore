@@ -1,0 +1,8 @@
+# IDE
+.idea/
+
+# vagrant
+.vagrant/
+
+# k8s installer
+kubespray/

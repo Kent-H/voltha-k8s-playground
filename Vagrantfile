@@ -51,10 +51,12 @@ Vagrant.configure(2) do |config|
           ansible.limit = "all"
         end
         s.vm.provision "ansible_local" do |ansible|
-          ansible.playbook = "ansible/deploy.yml"
+          ansible.playbook = "ansible/config-masters.yml"
           ansible.inventory_path = "kubespray/inventory/voltha/hosts.ini"
+          ansible.become = true
+          ansible.become_user = "root"
           ansible.verbose = true
-          ansible.limit = "k8s1"
+          ansible.limit = "kube-master"
         end
       end
     end
