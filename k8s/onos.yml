@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
         - name: onos
-          image: voltha/voltha-onos
+          image: volthacore/voltha-onos:1.13.5
           env:
             - name: POD_IP
               valueFrom:
